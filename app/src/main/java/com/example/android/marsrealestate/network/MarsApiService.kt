@@ -1,8 +1,9 @@
 package com.example.android.marsrealestate.network
 
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import retrofit2.Call
+import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -18,12 +19,13 @@ private val retrofit = Retrofit.Builder()
         .addConverterFactory(ScalarsConverterFactory.create())
         .baseUrl(BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 
 interface MarsApiService {
     @GET("realestate")
     fun getProperties():
-            Call<List<MarsProperty>>
+            Deferred<List<MarsProperty>>
 }
 
 object MarsApi {
